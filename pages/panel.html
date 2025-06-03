@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel del Tutor</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h2>Panel del Tutor</h2>
+
+  <label for="tutorId">ID del Tutor:</label>
+  <input type="text" id="tutorId" />
+  <button onclick="cargarSesiones()">Ver mis sesiones</button>
+
+  <ul id="listaSesiones"></ul>
+  <hr />
+  <button onclick="window.location.href='../index.html'">Salir</button>
+
+
+  <script src="../script.js"></script>
+  <script>
+    async function cargarSesiones() {
+      const tutorId = document.getElementById("tutorId").value;
+      const lista = document.getElementById("listaSesiones");
+      lista.innerHTML = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/sessions/tutor/${tutorId}`);
+        const sesiones = await res.json();
+
+        if (!sesiones.length) {
+          lista.innerHTML = "<li>No tienes sesiones registradas.</li>";
+        } else {
+          sesiones.forEach(sesion => {
+            const li = document.createElement('li');
+            li.textContent = `Estudiante: ${sesion.student.name} - ${sesion.subject} - ${sesion.date} - ${sesion.time} - Estado: ${sesion.status}`;
+            lista.appendChild(li);
+          });
+        }
+      } catch (err) {
+        lista.innerHTML = "<li>Error al cargar las sesiones.</li>";
+      }
+    }
+  </script>
+</body>
+</html>

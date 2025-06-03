@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plataforma de Tutorías</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a la Plataforma de Tutorías</h1>
+
+    <div class="menu-buttons" id="authButtons">
+      <a class="button-link" href="pages/register.html">Registro</a>
+      <button class="button-link" onclick="mostrarLogin()">Iniciar sesión</button>
+    </div>
+
+    <div id="opciones" style="display: none;">
+      <h2 id="bienvenida"></h2>
+
+      <div class="menu-buttons">
+        <a class="button-link" href="pages/tutors.html">Buscar Tutores</a>
+        <a class="button-link" href="pages/schedule.html">Agendar Sesión</a>
+        <a id="panelTutorLink" class="button-link" href="pages/panel.html" style="display: none;">Panel del Tutor</a>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button class="button-link" onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
+    </div> 
+  </div>
+
+  <!-- Modal para inicio de sesión -->
+  <div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>Iniciar sesión</h3>
+      <label for="userEmail">Correo electrónico:</label>
+      <input type="email" id="userEmail" placeholder="ejemplo@email.com" />
+      <label for="userPassword">Contraseña:</label>
+      <input type="password" id="userPassword" />
+      <button class="button-link" onclick="iniciarSesion()">Entrar</button>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
+
