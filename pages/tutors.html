@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buscar Tutores</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h2>Buscar Tutores por Materia</h2>
+
+  <input type="text" id="subjectInput" placeholder="Ej: Matemáticas" />
+  <button onclick="buscarTutores()">Buscar</button>
+
+  <ul id="resultados"></ul>
+
+  <hr />
+  <button onclick="window.location.href='../index.html'">Salir</button>
+
+
+  <script src="../script.js"></script>
+  <script>
+    async function buscarTutores() {
+      const materia = document.getElementById('subjectInput').value.trim();
+      const lista = document.getElementById('resultados');
+      lista.innerHTML = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/users/tutors?subject=${encodeURIComponent(materia)}`);
+        const tutores = await res.json();
+
+        if (!tutores.length) {
+          lista.innerHTML = "<li>No se encontraron tutores para esa materia.</li>";
+        } else {
+          tutores.forEach(tutor => {
+            const li = document.createElement('li');
+            li.textContent = `${tutor.name} (${tutor.email}) - Disponibilidad: ${tutor.availability.join(', ')}`;
+            lista.appendChild(li);
+          });
+        }
+      } catch (err) {
+        lista.innerHTML = "<li>Error al consultar tutores.</li>";
+      }
+    }
+  </script>
+</body>
+</html>
