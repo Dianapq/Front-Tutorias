@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agendar Tutoría</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Agendar Tutoría</h2>
+    <form onsubmit="agendarTutoria(); return false;" style="max-width: 400px; margin: 0 auto;">
+      <label>Selecciona el tutor:</label>
+      <select id="tutorSelect"><option>diana (tutor1@gmail.com)</option></select>
+
+      <label>Selecciona el estudiante:</label>
+      <select id="estudianteSelect"><option>diana (tutor1@gmail.com)</option></select>
+
+      <label>Materia:</label>
+      <input type="text" id="materiaInput" />
+
+      <label>Fecha:</label>
+      <input type="date" id="fechaInput" />
+
+      <label>Hora (Ej: 08:00 AM - 09:00 AM):</label>
+      <input type="text" id="horaInput" />
+
+      <button class="button-link" type="submit">Agendar</button>
+    </form>
+    <div style="margin-top: 20px;">
+      <button class="button-link" onclick="salir()">Salir</button>
+    </div>
+  </div>
+  <script src="../script.js"></script>
+</body>
+</html>

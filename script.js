@@ -2,7 +2,7 @@ const API_BASE = "http://localhost:5000/api";
 
 // Mostrar modal de login
 function mostrarLogin() {
-  document.getElementById("loginModal").style.display = "flex";
+  document.getElementById("loginModal").style.display = "block";
 }
 
 // Iniciar sesión usando correo y contraseña
