@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agendar Sesión</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h2>Agendar Tutoría</h2>
+
+  <form id="scheduleForm">
+    <label for="tutor">Selecciona el tutor:</label>
+    <select id="tutor" required></select>
+
+    <label for="student">Selecciona el estudiante:</label>
+    <select id="student" required></select>
+
+    <label for="subject">Materia:</label>
+    <input type="text" id="subject" required />
+
+    <label for="date">Fecha:</label>
+    <input type="date" id="date" required />
+
+    <label for="time">Hora (Ej: 08:00 AM - 09:00 AM):</label>
+    <input type="text" id="time" required />
+
+    <button type="submit">Agendar</button>
+  </form>
+
+  <p id="message"></p>
+
+  <hr />
+  <button onclick="window.location.href='../index.html'">Salir al inicio</button>
+
+  <script src="../script.js"></script>
+  <script>
+    // Cargar tutores y estudiantes en los selects
+    async function cargarUsuarios() {
+      const tutorSelect = document.getElementById("tutor");
+      const studentSelect = document.getElementById("student");
+
+      try {
+        const [tutorRes, studentRes] = await Promise.all([
+          fetch(`${API_BASE}/users/tutors`),
+          fetch(`${API_BASE}/users/tutors?role=estudiante`) // opción mejor si tienes un endpoint general
+        ]);
+
+        const tutores = await tutorRes.json();
+        const estudiantes = await studentRes.json();
+
+        // Llenar select de tutores
+        tutores.forEach(t => {
+          const opt = document.createElement("option");
+          opt.value = t._id;
+          opt.textContent = `${t.name} (${t.email})`;
+          tutorSelect.appendChild(opt);
+        });
+
+        // Llenar select de estudiantes (puedes simular uno si no tienes ruta)
+        estudiantes.forEach(e => {
+          const opt = document.createElement("option");
+          opt.value = e._id;
+          opt.textContent = `${e.name} (${e.email})`;
+          studentSelect.appendChild(opt);
+        });
+      } catch (err) {
+        document.getElementById("message").innerText = "Error al cargar usuarios.";
+      }
+    }
+
+    cargarUsuarios();
+
+    // Agendar sesión
+    document.getElementById("scheduleForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const session = {
+        tutor: document.getElementById("tutor").value,
+        student: document.getElementById("student").value,
+        subject: document.getElementById("subject").value,
+        date: document.getElementById("date").value,
+        time: document.getElementById("time").value
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/sessions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(session)
+        });
+
+        const data = await res.json();
+        document.getElementById("message").innerText = res.ok
+          ? "Sesión agendada correctamente ✅"
+          : `Error: ${data.error}`;
+      } catch (err) {
+        document.getElementById("message").innerText = "Error al conectar con el servidor.";
+      }
+    });
+  </script>
+</body>
+</html>
+
